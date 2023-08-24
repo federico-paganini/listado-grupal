@@ -2,27 +2,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const btnagregar = document.getElementById("agregar");
     const lista = document.getElementById("contenedor");
+    var elementos = [];
+   
 
     btnagregar.addEventListener("click", function (event) {
         event.preventDefault();
+        let elemento = "";
+
 
         const agregar = document.getElementById("item");
-        let elementos = [];
+        
         if (agregar.value !== "") {
-            elementos.push(agregar.value);
             agregar.value = "";
+            elemento = agregar.value;
+            elementos.push(elemento);
         } else {
             alert("Ingrese elementos en Nuevo Ítem");
         }
 
         printall(elementos);
-        console.log(elementos);
-        let elementjs = JSON.stringify(elementos);
-        localStorage.setItem("Guardados", elementjs);
         localStorage.setItem("Imprimir", true);
     });
-    
-    
+    let elementjs = JSON.stringify(elementos);
+    localStorage.setItem("Guardados", elementjs);
 
     const btnlimpiar = document.getElementById("limpiar");
 

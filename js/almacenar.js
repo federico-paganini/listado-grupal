@@ -3,11 +3,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const btnagregar = document.getElementById("agregar");
     const lista = document.getElementById("contenedor");
 
+    let elementos = []; // Inicializa el array fuera del evento 'click'
+
     btnagregar.addEventListener("click", function (event) {
         event.preventDefault();
 
         const agregar = document.getElementById("item");
-        let elementos = [];
+
         if (agregar.value !== "") {
             elementos.push(agregar.value);
             agregar.value = "";
@@ -16,39 +18,31 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         printall(elementos);
-        console.log(elementos);
-        let elementjs = JSON.stringify(elementos);
-        localStorage.setItem("Guardados", elementjs);
-        localStorage.setItem("Imprimir", true);
+        localStorage.setItem('elementos', JSON.stringify(elementos));
     });
-    
-    
 
     const btnlimpiar = document.getElementById("limpiar");
 
     btnlimpiar.addEventListener("click", function () {
-        localStorage.removeItem("Guardados");
-        localStorage.removeItem("Imprimir");
+        localStorage.removeItem("elementos"); // Cambiado a 'elementos'
         elementos = [];
         while (lista.firstChild) {
             lista.removeChild(lista.firstChild);
         }
     });
 
-    let imprimo = localStorage.getItem("Imprimir");
+    let elementosGuardados = localStorage.getItem('elementos'); // Cambiado a 'elementos'
 
-    if (imprimo) {
-        elementos = localStorage.getItem("Guardados");
-        elementjs = JSON.parse(elementos);
-        console.log(elementjs);
-        printall(elementjs);
-    };
-    
-    function printall (element) {
-    
+    if (elementosGuardados) {
+        elementos = JSON.parse(elementosGuardados); // Cambiado a 'elementos'
+        printall(elementos);
+    }
+
+    function printall(element) {
+        lista.innerHTML = ""; // Limpiar la lista antes de agregar los elementos nuevamente
+
         for (let i = 0; i < element.length; i++) {
             lista.innerHTML += "<li>" + element[i] + "</li>";
         }
     };
 });
-
